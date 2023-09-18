@@ -76,3 +76,13 @@ export const createActivationToken = (user: any): IActivationToken => {
         })
     return { token, activationCode }
 }
+
+// activate user
+interface IActivationRequest {
+    activation_toke: string
+    activation_code: string
+}
+
+export const activateUser = CatchAsyncError((req: Request, res: Response, next: NextFunction) => {
+    
+})
