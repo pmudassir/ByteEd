@@ -8,6 +8,7 @@ import ejs from "ejs"
 import path from "path";
 import sendMail from "../utils/sendMail";
 import { SendToken } from "../utils/jwt";
+import { redis } from "../utils/redis";
 
 // user reg
 interface IRegistrationBody {
@@ -152,6 +153,10 @@ export const LogOutUser = CatchAsyncError(async (req: Request, res: Response, ne
     try {
         res.cookie("access_token", "", { maxAge: 1 })
         res.cookie("refresh_token", "", { maxAge: 1 })
+        
+        const userId = req.user?._id || ""
+        redis.del(userId)
+
         res.status(200).json({
             success: true,
             message: "Logged out successfully"
