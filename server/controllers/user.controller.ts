@@ -304,3 +304,5 @@ export const updatePassword = CatchAsyncError(async (req: Request, res: Response
         return next(new ErrorHandler(error.message, 400))
     }
 })
+
+// commit check
