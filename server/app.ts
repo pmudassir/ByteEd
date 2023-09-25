@@ -5,6 +5,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import { ErrorMiddleware } from "./middleware/error"
 const userRoute = require("./routes/user.route")
+const courseRoute = require("./routes/course.route")
 
 //body parser
 app.use(express.json({ limit: "50mb" }))
@@ -19,6 +20,7 @@ app.use(cors({
 
 // routes
 app.use("/api/v1", userRoute)
+app.use("/api/v1", courseRoute)
 
 //test route
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
