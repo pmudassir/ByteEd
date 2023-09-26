@@ -55,3 +55,31 @@ export const editCourse = CatchAsyncError(async (req: Request, res: Response, ne
         return new ErrorHandler(error.message, 500)
     }
 })
+
+// get single course (before purchasing)
+export const getSingleCourse = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const course = await CourseModel.findById(req.params.id).select("-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links")
+
+        res.status(200).json({
+            success: true,
+            course
+        })
+    } catch (error: any) {
+        return new ErrorHandler(error.message, 500)
+    }
+})
+
+// get all courses (before purchasing)
+export const getAllCourses = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const courses = await CourseModel.find().select("-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links")
+
+        res.status(200).json({
+            success: true,
+            courses
+        })
+    } catch (error: any) {
+        return new ErrorHandler(error.message, 500)
+    }
+})
