@@ -6,6 +6,9 @@ import { createCourse } from "../services/course.services";
 import CourseModel from "../models/Course";
 import { redis } from "../utils/redis";
 import mongoose from "mongoose";
+import path from "path";
+import ejs from "ejs"
+import sendMail from "../utils/sendMail";
 
 // upload course
 export const uploadCourse = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
@@ -203,12 +206,31 @@ export const addAnswer = CatchAsyncError(async (req: Request, res: Response, nex
 
         await course?.save()
 
-        if(req.user?._id === question?.user?._id) {
-            return res.status(201).json({
-                success: true,
-                course
-            })
+        if (req.user?._id === question.user._id) {
+            // create Notification
+        } else {
+            const data = {
+                name: question.user.name,
+                title: courseContent.title
+            }
+
+            const html = await ejs.renderFile(path.join(__dirname, "../mails", "questionReply.ejs"), data)
+
+            try {
+                await sendMail({
+                    email: question.user.email,
+                    subject: "Question Reply",
+                    template: "questionReply.ejs",
+                    data
+                })
+            } catch (error: any) {
+                return new ErrorHandler(error.message, 500)
+            }
         }
+        res.status(201).json({
+            success: true,
+            course
+        })
     } catch (error: any) {
         return new ErrorHandler(error.message, 500)
     }
