@@ -7,6 +7,7 @@ import { ErrorMiddleware } from "./middleware/error"
 const userRoute = require("./routes/user.route")
 const courseRoute = require("./routes/course.route")
 const orderRoute = require("./routes/order.route")
+const notificationRoute = require("./routes/notification.route")
 
 //body parser
 app.use(express.json({ limit: "50mb" }))
@@ -23,6 +24,7 @@ app.use(cors({
 app.use("/api/v1", userRoute)
 app.use("/api/v1", courseRoute)
 app.use("/api/v1", orderRoute)
+app.use("/api/v1", notificationRoute)
 
 //test route
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
