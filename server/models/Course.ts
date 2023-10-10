@@ -23,7 +23,7 @@ interface ICourseData extends Document {
     title: string
     description: string
     videoUrl: string
-    videoThumbnail: string
+    videoThumbnail: object
     videoSection: string
     videoLength: number
     videoPlayer: string
@@ -34,7 +34,7 @@ interface ICourseData extends Document {
 
 interface ICourse extends Document {
     name: string
-    description: string
+    description?: string
     price: number
     estimatedPrice?: number
     thumbnail: object
