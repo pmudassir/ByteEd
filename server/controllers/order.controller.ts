@@ -17,11 +17,15 @@ export const createOrder = CatchAsyncError(async (req: Request, res: Response, n
 
         const user = await userModel.findById(req.user?._id);
 
-        const courseExistInUser = user?.courses.some((course: any) => course.courseId.toString() === courseId.toString())
-        if (courseExistInUser) return next(new ErrorHandler("You have already purchased this course", 400))
+        const courseExistInUser = user?.courses.some((course: any) => course._id.toString() === courseId)
+        if (courseExistInUser) {
+            return next(new ErrorHandler("You have already purchased this course", 400))
+        }
 
         const course = await CourseModel.findById(courseId)
-        if (!course) return next(new ErrorHandler("Course not found", 400))
+        if (!course) {
+            return next(new ErrorHandler("Course not found", 400))
+        }
 
         const data: any = {
             courseId: course._id,
@@ -56,7 +60,7 @@ export const createOrder = CatchAsyncError(async (req: Request, res: Response, n
         await user?.save()
 
         await NotificationModel.create({
-            user: user?._id,
+            userId: user?._id,
             title: "New Order",
             message: `You have a new order from ${course?.name}`,
             payment_info
