@@ -8,7 +8,8 @@ import CourseModel from "../models/Course";
 import path from "path";
 import ejs from "ejs"
 import sendMail from "../utils/sendMail";
-import { newOrder } from "../services/order.services";
+import { getAllOrdersService, newOrder } from "../services/order.services";
+import { getAllCoursesService } from "../services/course.services";
 
 // create order
 export const createOrder = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
@@ -70,6 +71,15 @@ export const createOrder = CatchAsyncError(async (req: Request, res: Response, n
         await course.save()
 
         newOrder(data, res, next)
+    } catch (error: any) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+})
+
+// get all orders --admin
+export const getAllOrders = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        getAllOrdersService(res)
     } catch (error: any) {
         return next(new ErrorHandler(error.message, 500))
     }

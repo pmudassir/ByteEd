@@ -1,5 +1,5 @@
 require("dotenv").config()
-import e, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import userModel, { IUser } from "../models/User";
 import ErrorHandler from "../utils/ErrorHandler";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
@@ -9,7 +9,7 @@ import path from "path";
 import sendMail from "../utils/sendMail";
 import { accessTokenOptions, refreshTokenOptions, SendToken } from "../utils/jwt";
 import { redis } from "../utils/redis";
-import { getUserById } from "../services/user.services";
+import { getAllUsersService, getUserById } from "../services/user.services";
 import cloudinary from "cloudinary";
 
 // user reg
@@ -345,5 +345,14 @@ export const updateAvatar = CatchAsyncError(async (req: Request, res: Response, 
         })
     } catch (error: any) {
         return new ErrorHandler(error.message, 400)
+    }
+})
+
+// get all users
+export const getAllUsers = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        getAllUsersService(res)
+    } catch (error: any) {
+        return next(new ErrorHandler(error.message, 400))
     }
 })

@@ -10,3 +10,11 @@ export const newOrder = CatchAsyncError(async (data: any, next: NextFunction, re
         order
     })
 })
+
+export const getAllOrdersService = async (res: Response) => {
+    const orders = await OrderModel.find();
+    res.status(200).json({
+        success: true,
+        orders
+    })
+}
