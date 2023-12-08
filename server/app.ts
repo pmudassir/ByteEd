@@ -9,6 +9,7 @@ const courseRoute = require("./routes/course.route")
 const orderRoute = require("./routes/order.route")
 const notificationRoute = require("./routes/notification.route")
 const analyticsRoute = require("./routes/analytics.route")
+const layoutRouter = require("./routes/layout.route")
 
 //body parser
 app.use(express.json({ limit: "50mb" }))
@@ -26,7 +27,8 @@ app.use("/api/v1", userRoute)
 app.use("/api/v1", courseRoute)
 app.use("/api/v1", orderRoute)
 app.use("/api/v1", notificationRoute)
-app.use("/api/v1", analyticsRoute)
+app.use("/api/v1", analyticsRoute) 
+app.use("/api/v1", layoutRouter)
 
 //test route
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {

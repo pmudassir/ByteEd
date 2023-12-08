@@ -15,7 +15,7 @@ interface BannerImage extends Document {
 }
 
 interface Layout extends Document {
-    title: string;
+    type: string;
     faqItems: FaqItems[];
     categories: Category[];
     banner: {
@@ -40,13 +40,13 @@ const bannerImageSchema = new Schema<BannerImage>({
 })
 
 const layoutSchema = new Schema<Layout>({
-    title: { type: String },
+    type: { type: String },
     faqItems: [faqSchema],
     categories: [categorySchema],
     banner: {
         image: bannerImageSchema,
         title: { type: String },
-        subtitle: { type: String }
+        subTitle: { type: String }
     }
 })
 
